@@ -1,8 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Short url:</strong>
+  <%= link_to @surl, @surl, target: '_blank' %>
+</p>
+
+<p>
   <strong>Long url:</strong>
-  <%= @link.long_url %>
+  <%= link_to @link.long_url, @link.long_url %>
 </p>
 
 <p>
@@ -10,10 +15,4 @@
   <%= @link.clicks %>
 </p>
 
-<p>
-  <strong>User:</strong>
-  <%= @link.user_id %>
-</p>
-
-<%= link_to 'Edit', edit_link_path(@link) %> |
 <%= link_to 'Back', links_path %>
