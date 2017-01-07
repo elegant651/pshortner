@@ -1,41 +1,45 @@
 class LinksController < ApplicationController
-  before_action :set_link, only: [:show]
 
+  HOST_NAME = 'http://psh.ly/'
   # GET /links
   # GET /links.json
   def index
     @links = Link.all
   end
 
+  # GET /links/new
+  def new
+    @links = Link.new
+  end
+
   # GET /links/1
   # GET /links/1.json
   def show
-  end
-
-  # POST /links
-  # POST /links.json
-  def create
-    @link = Link.new(link_params)
-
-    respond_to do |format|
-      if @link.save
-        format.html { redirect_to @link, notice: 'Link was successfully created.' }
-        format.json { render :show, status: :created, location: @link }
-      else
-        format.html { render :new }
-        format.json { render json: @link.errors, status: :unprocessable_entity }
-      end
+    id = Base58.decode(params[:encoded_id])
+    
+    @link = Link.find(id)
+    if @link
+      if redirect_to @link.long_url
+        @link.clicks += 1
+        @link.save
+      end           
+    else      
+      #nothing found
+      render :json => { :errors => "nothing found" }
     end
   end  
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_link
-      @link = Link.find(params[:id])
+  def shorten    
+    long_url = params[:long_url]
+    ldata = Link.find_by_long_url(long_url)
+    if ldata 
+      @surl = HOST_NAME + Base58.encode(ldata.id)
+    else
+      ldata = Link.create(:long_url => long_url)
+      @surl = HOST_NAME + Base58.encode(ldata.id)
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def link_params
-      params.require(:link).permit(:long_url, :clicks, :user_id)
-    end
+    render :json => @surl
+  end
+  
 end
