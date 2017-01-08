@@ -20,9 +20,10 @@ class Base58
 
 	def self.decode(str)
 		val = 0
+		str = str.to_s
 		str.reverse.split(//).each_with_index do |char,index|			
 			char_idx = ALPHABET.index(char)
-			if char_idx.nil
+			if char_idx.nil?
 				raise ArgumentError, 'value should be base58 string'
 			end
 			val += (char_idx)*(BASE**(index))

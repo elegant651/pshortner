@@ -7,7 +7,7 @@
     <tr>
       <th>Long url</th>
       <th>Clicks</th>
-      <th>User</th>      
+      <th>Shorten url</th>      
     </tr>
   </thead>
 
@@ -16,7 +16,7 @@
       <tr>
         <td><%= link.long_url %></td>
         <td><%= link.clicks %></td>
-        <td><%= link.user_id %></td>        
+        <td><%= link_to encoded_url_fromid(link.id), encoded_url_fromid(link.id) %></td>                
       </tr>
     <% end %>
   </tbody>

@@ -1,6 +1,6 @@
 class LinksController < ApplicationController
 
-  HOST_NAME = 'http://psh.ly/'
+  HOST_NAME = 'http://localhost:3000/'
   # GET /links
   # GET /links.json
   def index

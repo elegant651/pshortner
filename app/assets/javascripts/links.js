@@ -8,7 +8,7 @@ function ajax_shorten() {
 		type: 'POST',
 		data: form.serialize()
 	}).done(function(response) {
-		$("#result").html(response.data);
+		$("#result").html("shorten Url: "+response.data);
 	});
 }
 
