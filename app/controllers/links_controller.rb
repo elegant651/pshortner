@@ -24,22 +24,20 @@ class LinksController < ApplicationController
         @link.save
       end           
     else      
-      #nothing found
-      render :json => { :errors => "nothing found" }
+      redirect_to HOST_NAME
     end
   end  
 
-  def shorten    
-    long_url = params[:long_url]
-    ldata = Link.find_by_long_url(long_url)
+  def shorten        
+    ldata = Link.find_by_long_url(params[:long_url])
     if ldata 
       @surl = HOST_NAME + Base58.encode(ldata.id)
     else
-      ldata = Link.create(:long_url => long_url)
+      ldata = Link.create(:long_url => params[:long_url])
       @surl = HOST_NAME + Base58.encode(ldata.id)
     end
 
-    render :json => @surl
+    render :json => { :data => @surl }
   end
   
 end

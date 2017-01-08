@@ -3,10 +3,10 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  # get ':encoded_id' => 'links#show'
-  get 'test' => 'links#test'
-  get 'test/:long_url' => 'links#test'
-  get 'api/shorten/:long_url' => 'links#shorten'
+  
+  root 'links#index'
+  get ':encoded_id' => 'links#show'
+  post '/api/shorten' => 'links#shorten'
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
