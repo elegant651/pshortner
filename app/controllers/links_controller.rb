@@ -4,19 +4,18 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.json
   def index
-    @links = Link.all
+    @ulinks = Userlink.all
   end
 
   # GET /links/new
   def new
     @links = Link.new
   end
-
-  # GET /links/1
-  # GET /links/1.json
+  
   def show
+    user_id = Base58.decode(params[:user_id])
     id = Base58.decode(params[:encoded_id])
-    
+
     @link = Link.find(id)
     if @link
       if redirect_to @link.long_url
@@ -31,10 +30,15 @@ class LinksController < ApplicationController
   def shorten        
     ldata = Link.find_by_long_url(params[:long_url])
     if ldata 
-      @surl = HOST_NAME + Base58.encode(ldata.id)
+      @surl = HOST_NAME + params[:user_id] + "/" + Base58.encode(ldata.id)      
     else
-      ldata = Link.create(:long_url => params[:long_url])
-      @surl = HOST_NAME + Base58.encode(ldata.id)
+      ldata = Link.create(:long_url => params[:long_url])      
+      @surl = HOST_NAME + params[:user_id] + "/" + Base58.encode(ldata.id)      
+    end
+    
+    ulink = Userlink.find_by_url(@surl)
+    if !ulink
+      Userlink.create(:url => @surl, :user_id => params[:user_id], :link_id => ldata.id)
     end
 
     render :json => { :data => @surl }

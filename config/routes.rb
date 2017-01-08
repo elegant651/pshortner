@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   
   root 'links#index'
-  get ':encoded_id' => 'links#show'
+  get '/:user_id/:encoded_id' => 'links#show'
   post '/api/shorten' => 'links#shorten'
 
   # You can have the root of your site routed with "root"

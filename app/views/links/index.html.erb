@@ -8,15 +8,21 @@
       <th>Long url</th>
       <th>Clicks</th>
       <th>Shorten url</th>      
+      <th>User info</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @links.each do |link| %>
+    <% @ulinks.each do |ulink| %>
       <tr>
-        <td><%= link.long_url %></td>
-        <td><%= link.clicks %></td>
-        <td><%= link_to encoded_url_fromid(link.id), encoded_url_fromid(link.id) %></td>                
+        <td><%= ulink.link.long_url %></td>
+        <td><%= ulink.link.clicks %></td>
+        <td><%= link_to ulink.url, ulink.url %></td>
+        <td>
+          <% if ulink.user %>
+            <%= ulink.user.id %> , <%=ulink.user.name %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
