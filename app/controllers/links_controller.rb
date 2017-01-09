@@ -29,12 +29,10 @@ class LinksController < ApplicationController
 
   def shorten        
     ldata = Link.find_by_long_url(params[:long_url])
-    if ldata 
-      @surl = HOST_NAME + params[:user_id] + "/" + Base58.encode(ldata.id)      
-    else
+    if !ldata 
       ldata = Link.create(:long_url => params[:long_url])      
-      @surl = HOST_NAME + params[:user_id] + "/" + Base58.encode(ldata.id)      
     end
+    @surl = HOST_NAME + params[:user_id] + "/" + Base58.encode(ldata.id)
     
     ulink = Userlink.find_by_url(@surl)
     if !ulink
